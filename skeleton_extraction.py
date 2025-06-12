@@ -6,14 +6,6 @@ from gaze_estimator import GazeEstimator # 視線推定クラスをインポー�
 import visualizer # 描画モジュールをインポート
 
 def main(image_path, output_path):
-    """
-    メイン処理
-    1. 画像を読み込む
-    2. 視線を推定する
-    3. 結果を描画する
-    4. 画像を保存・表示する
-    """
-    # 1. 画像読み込み
     try:
         image = cv2.imread(image_path)
         if image is None:
@@ -78,6 +70,6 @@ def main(image_path, output_path):
     estimator.close()
 
 if __name__ == '__main__':
-    IMAGE_FILE = 'input-img/three2.jpeg' # 入力画像
+    IMAGE_FILE = 'input-img/test.jpeg' # 入力画像
     OUTPUT_FILE = 'output-img/gaze_estimation_result.jpg' # 出力画像
     main(IMAGE_FILE, OUTPUT_FILE)

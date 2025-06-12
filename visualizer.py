@@ -31,10 +31,9 @@ def draw_gaze_info(image, eye_pos, ear_pos, angle_rad):
     cv2.circle(image, eye_pos, 10, (0, 0, 255), -1, cv2.LINE_AA) # 目: 赤
     cv2.circle(image, ear_pos, 10, (255, 0, 0), -1, cv2.LINE_AA) # 耳: 青
 
-    # 視線を描画（画像の端まで延長）
     # 視線の向きに応じて描画の終点を画面の端に設定
     if math.cos(angle_rad) > 0:
-        end_x = w
+        end_x = w-100
     else:
         end_x = 0
     end_y = eye_pos[1] + math.tan(angle_rad) * (end_x - eye_pos[0])

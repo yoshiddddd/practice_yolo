@@ -3,3 +3,4 @@ output-img
 mediapipe-env
 yolo-env
 __pycache__
+.vscode

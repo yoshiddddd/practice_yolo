@@ -34,7 +34,7 @@ class GazeEstimator:
         eye_pos = (int(eye_landmark.x * w), int(eye_landmark.y * h))
         ear_pos = (int(ear_landmark.x * w), int(ear_landmark.y * h))
 
-        # 耳から目へのベクトルを計算し、角度（ラジアン）を求める
+       #TODO ここの計算ロジック確認
         delta_x = eye_pos[0] - ear_pos[0]
         delta_y = eye_pos[1] - ear_pos[1]
         angle_rad = math.atan2(delta_y, delta_x)
@@ -52,13 +52,12 @@ class GazeEstimator:
             current_x += cos_angle
             current_y += sin_angle
 
-            # 画面外に出たら終了
+            # 画面外に出たら終了→ここは画角がブレると正しく判定できない
             if not (0 < current_x < w and 0 < current_y < h):
                 return "棚の外", None
 
             # 各棚との衝突判定
             for shelf in shelves:
-                # 棚の右端近くに視線が到達したかチェック
                 is_in_y_range = shelf["top_y"] < current_y < shelf["bottom_y"]
                 is_in_x_range = (w - x_offset) < current_x < w
                 
