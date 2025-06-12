@@ -10,6 +10,7 @@ results = model(images)
 for i, result in enumerate(results):
     annotated = result.plot()
     cv2.imshow(f"Result {i}",annotated)
+    cv2.imwrite(f"{i} result.png", annotated)
 
 
 cv2.waitKey(0)  # Wait for a key press to close the window
