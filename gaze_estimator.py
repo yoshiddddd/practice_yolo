@@ -24,22 +24,33 @@ class GazeEstimator:
         # 画面に映っている方の目と耳を主に使う
         left_eye = landmarks[self.mp_pose.PoseLandmark.LEFT_EYE_INNER]
         right_eye = landmarks[self.mp_pose.PoseLandmark.RIGHT_EYE_INNER]
+        nose = landmarks[self.mp_pose.PoseLandmark.NOSE]
         left_ear = landmarks[self.mp_pose.PoseLandmark.LEFT_EAR]
         right_ear = landmarks[self.mp_pose.PoseLandmark.RIGHT_EAR]
 
         eye_landmark = left_eye if left_eye.visibility > right_eye.visibility else right_eye
+        if left_eye.visibility > right_eye.visibility:
+            eye_landmark = left_eye
+        else:
+            eye_landmark = right_eye
         ear_landmark = left_ear if left_ear.visibility > right_ear.visibility else right_ear
 
         # 目と耳のピクセル座標を計算
         eye_pos = (int(eye_landmark.x * w), int(eye_landmark.y * h))
+        nose_pos = (int(nose.x * w), int(nose.y * h))
         ear_pos = (int(ear_landmark.x * w), int(ear_landmark.y * h))
+        # average_pos = (int(eye_landmark.x * w),int((eye_landmark.y-nose.y)/2*h))
 
        #TODO ここの計算ロジック確認
-        delta_x = eye_pos[0] - ear_pos[0]
-        delta_y = eye_pos[1] - ear_pos[1]
+        # delta_x = eye_pos[0] - ear_pos[0]
+        # delta_y = eye_pos[1] - ear_pos[1]
+        delta_x = nose_pos[0] - ear_pos[0]
+        delta_y = nose_pos[1] - ear_pos[1]
+        # delta_x = average_pos[0] - ear_pos[0]
+        # delta_y = average_pos[1] - ear_pos[1]
         angle_rad = math.atan2(delta_y, delta_x)
 
-        return eye_pos, ear_pos, angle_rad
+        return nose_pos ,ear_pos, angle_rad
 
     def find_target_shelf(self, eye_pos, angle_rad, shelves, image_shape, steps, x_offset):
         h, w = image_shape
